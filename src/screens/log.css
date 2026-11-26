@@ -1,0 +1,298 @@
+.entry-page {
+  max-width: 720px;
+  margin-inline: auto;
+}
+
+.entry-dialog-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.entry-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.entry-toolbar .entry-manual {
+  min-height: 48px;
+  white-space: nowrap;
+}
+
+.entry-dialog-head button {
+  min-height: 44px;
+}
+
+.entry-toolbar .entry-search {
+  height: 48px;
+  padding-inline: 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.entry-search input,
+.entry-field input {
+  font-size: 16px;
+}
+
+.entry-list-heading {
+  margin: 22px 2px 8px;
+}
+
+.entry-catalog .entry-list {
+  padding: 0 12px;
+  overflow-anchor: none;
+}
+
+.entry-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  column-gap: 6px;
+}
+
+.entry-row[data-reordering] {
+  z-index: 1;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.entry-row + .entry-row {
+  border-top: 1px solid var(--line);
+}
+
+.entry-row button {
+  appearance: none;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.entry-pick {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  flex: 1;
+  align-items: center;
+  align-self: stretch;
+  gap: 10px;
+  min-width: 0;
+  min-height: 56px;
+  padding: 8px 3px;
+  border-radius: 8px;
+  color: var(--text);
+  text-align: left;
+}
+
+.entry-pick span {
+  font-size: 16px;
+  font-weight: 620;
+  overflow-wrap: anywhere;
+}
+
+.entry-food-icon {
+  justify-self: center;
+  color: var(--muted);
+}
+
+.entry-arrow {
+  color: var(--muted);
+}
+
+.entry-bookmark {
+  display: grid;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 9px;
+  color: var(--muted);
+}
+
+.entry-bookmark[aria-pressed='true'] {
+  color: var(--lime);
+}
+
+@media (hover: hover) {
+  .entry-pick:hover span {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+.entry-empty {
+  margin-top: 22px;
+  padding: 28px 8px;
+  text-align: center;
+}
+
+.entry-empty h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.entry-empty button {
+  min-height: 44px;
+}
+
+dialog.entry-dialog,
+dialog.history-delete-alert {
+  --dialog-top: max(var(--app-inset-top), var(--app-visual-top, 0px));
+  --dialog-bottom: max(var(--app-inset-bottom), var(--app-visual-bottom, 0px));
+  inset-block-start: var(--dialog-top);
+  inset-block-end: var(--dialog-bottom);
+  inset-inline-start: var(--app-inset-left);
+  inset-inline-end: var(--app-inset-right);
+  max-block-size: min(85dvh, calc(100dvh - var(--dialog-top) - var(--dialog-bottom) - 16px));
+  max-inline-size: min(100% - 32px, 100dvw - var(--app-inset-left) - var(--app-inset-right) - 16px);
+}
+
+dialog.entry-dialog {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.entry-dialog-scroll {
+  height: auto;
+  overscroll-behavior: contain;
+  scroll-padding-block: 12px;
+}
+
+.entry-dialog-body {
+  display: grid;
+  gap: 20px;
+  padding: 22px;
+}
+
+.entry-dialog-head h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.entry-dialog-head button {
+  min-width: 44px;
+}
+
+.entry-dialog .entry-field {
+  min-height: 48px;
+  border-radius: 10px;
+}
+
+.entry-serving {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.meal-estimate-description {
+  color: var(--muted);
+  font-size: 14px;
+  word-break: keep-all;
+}
+
+.entry-serving p {
+  margin: 0;
+}
+
+.entry-serving p + p {
+  margin-top: 5px;
+}
+
+.entry-serving strong {
+  color: var(--text);
+}
+
+.entry-stepper {
+  display: grid;
+  min-width: 0;
+  gap: 7px;
+}
+
+.entry-stepper label {
+  font-weight: 600;
+}
+
+.entry-step-controls {
+  display: grid;
+  grid-template-columns: 44px 44px minmax(0, 1fr) 44px 44px;
+  align-items: center;
+  gap: 4px;
+}
+
+.entry-step-controls .entry-step-button {
+  min-height: 44px;
+  padding-inline: 0;
+  border-radius: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-step-value {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  margin: 0;
+  padding: 5px 2px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--canvas);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.entry-step-value:focus {
+  border-color: var(--lime);
+}
+
+.entry-step-value[aria-invalid] {
+  border-color: var(--danger);
+}
+
+.entry-step-hint {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.entry-step-hint[role='alert'] {
+  color: var(--danger);
+}
+
+.entry-dialog .entry-save {
+  min-height: 48px;
+}
+
+@media (max-width: 760px) {
+  .entry-page .entry-header {
+    min-height: 0;
+    margin: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .entry-catalog .entry-list {
+    padding-inline: 10px;
+  }
+
+  .entry-pick {
+    gap: 8px;
+  }
+
+  .entry-dialog-body {
+    padding: 16px;
+  }
+}

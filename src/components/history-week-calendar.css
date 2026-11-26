@@ -1,0 +1,27 @@
+.history-week-scroll {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-behavior: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.history-week-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.history-week-scroll > .history-week-days {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.history-week-scroll[data-mouse-drag] {
+  scroll-snap-type: none;
+}
+
+.history-week-scroll[data-mouse-drag],
+.history-week-scroll[data-mouse-drag] .history-date {
+  cursor: grabbing;
+}

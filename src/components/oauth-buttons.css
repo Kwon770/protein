@@ -1,0 +1,64 @@
+.oauth-buttons {
+  display: grid;
+  gap: 8px;
+  inline-size: min(100%, 320px);
+  margin-inline: auto;
+}
+
+.oauth-button {
+  appearance: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: 44px;
+  min-inline-size: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.oauth-button--google {
+  /* Google Identity's standard light button with a localized label. */
+  gap: 10px;
+  padding-inline: 12px;
+  border: 1px solid #747775;
+  color: #1f1f1f;
+  font-family: Roboto, "Pretendard Hangul", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+}
+
+.oauth-button__google-icon {
+  flex: none;
+  inline-size: 20px;
+  block-size: 20px;
+  object-fit: contain;
+}
+
+.oauth-button--apple {
+  border: 0;
+}
+
+.oauth-button--apple img {
+  display: block;
+  flex: none;
+  inline-size: 320px;
+  block-size: 44px;
+  max-inline-size: none;
+}
+
+.oauth-button:not(:disabled):active::after {
+  position: absolute;
+  inset: 0;
+  background: rgb(31 31 31 / 12%);
+  content: '';
+}
+
+.oauth-button:disabled {
+  opacity: 0.65;
+}

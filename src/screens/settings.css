@@ -1,0 +1,199 @@
+.settings-screen {
+  --settings-card-padding: clamp(19px, 2.5vw, 28px);
+  max-width: 720px;
+  margin-inline: auto;
+  color: var(--text);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.settings-card.panel,
+.settings-screen.start-screen .start-card.panel {
+  width: 100%;
+  padding: var(--settings-card-padding);
+  min-width: 0;
+}
+.settings-screen.start-screen {
+  display: block;
+  padding-block: 0;
+}
+.settings-card h2,
+.settings-group > h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1.18rem;
+  line-height: 1.4;
+  letter-spacing: -0.035em;
+  font-weight: 670;
+}
+.settings-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 38px;
+  margin-block: -6px 8px;
+}
+.settings-card .settings-edit-button {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  margin-inline-end: -8px;
+  border-radius: 10px;
+  color: var(--muted);
+}
+.settings-edit-button:hover {
+  color: var(--text);
+}
+.personal-facts {
+  margin: 8px 0 0;
+}
+.profile-empty {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.personal-facts div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 42px;
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.personal-facts div:last-child {
+  border: 0;
+}
+.personal-facts dt {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+.personal-facts dd {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.personal-facts .settings-goal-fact dd {
+  color: var(--lime);
+}
+.settings-group {
+  margin-top: clamp(20px, 3vw, 32px);
+}
+.settings-group > h2 {
+  margin-bottom: 9px;
+  font-size: 1rem;
+}
+.settings-list.panel {
+  padding: 0 clamp(16px, 2.6vw, 26px);
+}
+.settings-row {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(10px, 2vw, 17px);
+  min-height: 58px;
+  padding-block: 9px;
+  border-bottom: 1px solid var(--line);
+}
+.settings-row > svg {
+  color: var(--muted);
+}
+.settings-row:last-child {
+  border-bottom: 0;
+}
+.settings-row-copy {
+  display: grid;
+  gap: 4px;
+}
+.settings-row-copy h3,
+.settings-row > strong {
+  font-size: 0.98rem;
+  font-weight: 610;
+  line-height: 1.45;
+  margin: 0;
+}
+.settings-row-copy p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  margin: 0;
+}
+.settings-row .settings-switch {
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.settings-link:hover > strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.settings-link:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: -3px;
+  border-radius: 7px;
+}
+.settings-account-action {
+  width: 100%;
+  background: transparent;
+  color: inherit;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  padding-inline: 0;
+  text-align: left;
+  cursor: pointer;
+}
+.settings-account-action:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.settings-withdrawal > strong,
+.settings-withdrawal > svg:first-child {
+  color: var(--danger);
+}
+.withdrawal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.withdrawal-header button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.withdrawal-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  letter-spacing: -0.045em;
+}
+.withdrawal-notice p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.withdrawal-notice p > a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.withdrawal-action,
+.withdrawal-actions {
+  margin-top: 16px;
+}
+.withdrawal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.withdrawal-action,
+.withdrawal-actions button {
+  min-height: 44px;
+}
+@media (max-width: 390px) {
+  .settings-list.panel {
+    padding-inline: 14px;
+  }
+}

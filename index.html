@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#202020" />
+    <meta name="application-name" lang="ko" content="단백하게" />
+    <meta name="application-name" lang="en" content="Way to Go" />
+    <link rel="icon" href="/way-to-go-mark.svg" />
+    <title>단백하게 · 단백질 기록</title>
+  </head>
+  <body>
+    <div id="root">
+      <main id="local-file-help" hidden>
+        <h1>단백하게</h1>
+        <p>터미널에서 <code>npm run dev</code>를 실행한 뒤 표시된 주소로 접속하세요.</p>
+      </main>
+    </div>
+    <script>
+      if (window.location.protocol === 'file:') {
+        document.getElementById('local-file-help').hidden = false
+      }
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

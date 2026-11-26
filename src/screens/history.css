@@ -1,0 +1,265 @@
+.history-screen {
+  width: min(100%, 36rem);
+  margin-inline: auto;
+}
+
+.history-layout {
+  display: grid;
+  gap: 12px;
+}
+
+.history-week {
+  padding-block: 8px 16px;
+}
+
+.history-title {
+  font-size: clamp(22px, 2.8vw, 32px);
+}
+
+.history-week-head,
+.history-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.history-date,
+.history-edit {
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.history-edit {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  color: var(--muted);
+}
+
+.history-streak {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: .8125rem;
+  white-space: nowrap;
+}
+
+.history-streak svg {
+  flex: none;
+  color: var(--pink);
+}
+
+.history-streak strong {
+  color: var(--text);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.history-week-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.history-date {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-width: 0;
+  min-height: 52px;
+  gap: 5px;
+  padding: 3px 0;
+  border-radius: 10px;
+  color: var(--muted);
+}
+
+.history-date:focus-visible {
+  outline-offset: -1px;
+}
+
+.history-weekday {
+  font-size: .75rem;
+  font-weight: 560;
+  line-height: 1;
+}
+
+.history-date-ring {
+  position: relative;
+  display: grid;
+  width: min(100%, 46px);
+  aspect-ratio: 1;
+  place-items: center;
+}
+
+.history-date-ring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke-width: 3;
+}
+
+.history-ring-track { stroke: var(--line); }
+.history-ring-progress { stroke: var(--lime); stroke-linecap: round; }
+
+.history-date-ring b {
+  display: grid;
+  width: 68%;
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text);
+  font-size: .875rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.history-date[aria-pressed='true'] .history-weekday { color: var(--lime); }
+
+.history-date[aria-pressed='true'] .history-date-ring b {
+  background: #b8f64b25;
+  color: var(--lime);
+}
+
+.history-day {
+  margin-top: 8px;
+}
+
+.history-day-head {
+  flex-wrap: wrap;
+  padding-block: 4px 14px;
+  border-bottom: 1px solid var(--line);
+}
+
+.history-day-head button {
+  min-height: 44px;
+}
+
+.history-day-total {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.history-day-total strong {
+  color: var(--text);
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -.05em;
+}
+
+.history-day-total > span {
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.history-day-total small {
+  margin-inline-start: 5px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.history-entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.history-entries li {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto 44px;
+  min-height: 66px;
+  align-items: center;
+  gap: 12px;
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.history-food-icon {
+  color: var(--muted);
+}
+
+.history-food {
+  display: grid;
+  gap: 4px;
+}
+
+.history-food strong {
+  overflow-wrap: anywhere;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.history-food small,
+.history-amount small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.history-amount {
+  font-variant-numeric: tabular-nums;
+}
+
+.history-amount small {
+  font-weight: 450;
+}
+
+@media (hover: hover) {
+  .history-edit:hover,
+  .history-date:not([aria-pressed='true']):hover .history-date-ring b {
+    color: var(--text);
+    background: var(--raised);
+  }
+}
+
+.history-empty {
+  margin-top: 15px;
+  padding: 28px 18px;
+  text-align: center;
+}
+
+.history-empty h3 {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.history-empty button {
+  min-height: 44px;
+  margin-top: 12px;
+}
+
+.history-delete-alert .astryx-alert-dialog-description {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .history-week {
+    padding-block-start: 4px;
+  }
+
+  .history-streak {
+    position: absolute;
+    top: var(--app-inset-top);
+    right: max(20px, var(--app-inset-right));
+    height: var(--masthead-title-height, 50px);
+    gap: 4px;
+    font-size: .75rem;
+  }
+
+  .history-week-days {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Keep the brand mark inside the adaptive icon safe zone. -->
+    <group android:scaleX="3" android:scaleY="3" android:translateX="18" android:translateY="17">
+        <path android:strokeColor="#96BC36" android:strokeWidth="2"
+            android:strokeLineCap="round" android:strokeLineJoin="round"
+            android:pathData="M5.35,10.8l0.8,9.15a1.7,1.7 0,0 0,1.38 1.4c2.97,0.5 5.97,0.5 8.94,0a1.7,1.7 0,0 0,1.38 -1.4l0.8,-9.15 M4.25,8.6a1.2,1.2 0,0 1,1.2 -1.2h13.1a1.2,1.2 0,0 1,1.2 1.2v2.2H4.25z M7.35,7.4C8.1,5.55 9.85,4.5 12,4.5s3.9,1.05 4.65,2.9 M3.85,3c2.05,0.15 4.05,0.75 5.65,1.7" />
+    </group>
+</vector>

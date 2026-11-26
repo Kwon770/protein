@@ -1,0 +1,46 @@
+.protein-shaker {
+  position: relative;
+  inline-size: 100%;
+  aspect-ratio: 580 / 1370;
+  isolation: isolate;
+}
+
+.protein-shaker__image {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  filter: grayscale(1) brightness(0.79);
+}
+
+.protein-shaker__contents {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+}
+
+.protein-shaker__milk {
+  isolation: isolate;
+}
+
+.protein-shaker__reflection {
+  filter: grayscale(1);
+  mix-blend-mode: soft-light;
+  opacity: 0.52;
+}
+
+.protein-shaker__ball-float {
+  animation: shaker-ball-float 4.8s ease-in-out infinite;
+}
+
+@keyframes shaker-ball-float {
+  from, to { transform: translate(-8px, 1px) rotate(-4deg); }
+  50% { transform: translate(8px, -3px) rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .protein-shaker__ball-float {
+    animation: none;
+  }
+}

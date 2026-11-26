@@ -1,0 +1,380 @@
+.start-screen {
+  display: grid;
+  place-items: center;
+  min-height: 72svh;
+  padding-block: 28px;
+  color: var(--text);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.start-screen[data-editing] {
+  min-height: 0;
+  padding-block: 0 16px;
+}
+.start-card.panel {
+  width: min(100%, 460px);
+  padding: clamp(24px, 5vw, 40px);
+}
+.start-card h1 {
+  margin: 16px 0 6px;
+  color: var(--text);
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 1.28;
+}
+.start-card h1:focus,
+.onboarding-heading h1:focus {
+  outline: none;
+}
+
+.onboarding-screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-inline-size: 0;
+  color: var(--text);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.onboarding-top {
+  display: flex;
+  align-items: center;
+  min-block-size: 44px;
+}
+.onboarding-brand .brand-mark {
+  flex: none;
+}
+.onboarding-top .onboarding-back {
+  width: 44px;
+  height: 44px;
+  margin-inline-start: -10px;
+  color: var(--text);
+}
+.onboarding-heading {
+  margin-block-start: clamp(16px, 4dvh, 36px);
+}
+.onboarding-heading h1 {
+  font-size: clamp(2rem, 7.5vw, 2.5rem);
+  font-weight: 720;
+  letter-spacing: -0.058em;
+  line-height: 1.17;
+}
+.onboarding-screen[data-stage='welcome'] h1 {
+  font-size: clamp(2.5rem, 10.4vw, 3.5rem);
+  font-weight: 760;
+  line-height: 1.05;
+}
+.onboarding-heading p {
+  max-inline-size: 30ch;
+  margin-block-start: 12px;
+  color: var(--muted);
+  font-size: 0.975rem;
+  line-height: 1.55;
+}
+.onboarding-illustration {
+  display: grid;
+  flex: 1 0 auto;
+  place-items: center;
+  padding-block: 16px;
+  background: radial-gradient(ellipse 44% 43% at center, #98705524, transparent 100%);
+}
+.onboarding-shaker {
+  inline-size: clamp(74px, 15dvh, 136px);
+  transform: rotate(-11deg);
+  filter: drop-shadow(12px 16px 15px #0008);
+}
+.onboarding-screen[data-stage='login'] .onboarding-shaker {
+  inline-size: clamp(52px, 11dvh, 96px);
+}
+.onboarding-shaker .protein-shaker__ball-float {
+  animation: none;
+}
+@media (max-height: 500px) {
+  .onboarding-screen[data-stage='login'] .onboarding-illustration { display: none; }
+}
+.onboarding-actions {
+  display: grid;
+  gap: 6px;
+  margin-block-start: auto;
+  padding-block-start: 16px;
+}
+.start-auth-status {
+  margin-block-end: 6px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+.start-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0 16px;
+  margin-block-start: 4px;
+}
+.start-legal a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--muted);
+  font-size: 0.81rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.start-card .start-back {
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+  margin-inline-start: -8px;
+  color: var(--muted);
+}
+.goal-setup-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.goal-setup-heading h1 {
+  margin: 0;
+  font-size: clamp(1.375rem, 4vw, 1.75rem);
+  line-height: 1.22;
+}
+.profile-form {
+  display: grid;
+  gap: 20px;
+  margin-top: 16px;
+  min-width: 0;
+}
+.profile-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.profile-field,
+.profile-purpose legend {
+  color: var(--muted);
+  font-size: 0.83rem;
+  font-weight: 550;
+}
+.profile-field {
+  display: grid;
+  gap: 7px;
+}
+.profile-number {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--canvas);
+  color: var(--muted);
+}
+.profile-number:focus-within {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+.profile-field:has(input[aria-invalid='true']) .profile-number {
+  border-color: var(--danger);
+}
+.profile-field-error {
+  color: var(--danger);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.profile-number input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: max(16px, 1rem);
+  font-variant-numeric: tabular-nums;
+}
+.profile-number input:focus-visible {
+  outline: none;
+}
+.profile-number input {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.profile-number input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.profile-purpose {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.profile-purpose legend {
+  padding: 0;
+  margin-bottom: 7px;
+}
+.profile-purpose > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.profile-purpose label {
+  position: relative;
+  cursor: pointer;
+}
+.profile-purpose input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.profile-purpose span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+.profile-purpose input:checked + span {
+  border-color: var(--text);
+  color: var(--text);
+  background: var(--raised);
+}
+.profile-purpose input:focus-visible + span {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+.profile-recommendation {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 14px;
+  border: 1px solid color-mix(in srgb, var(--lime) 24%, var(--line));
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--lime) 6%, var(--surface));
+}
+.profile-recommendation h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.35;
+}
+.profile-recommendation-amount {
+  display: block;
+  margin-block: 5px 3px;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+}
+.profile-recommendation-amount strong {
+  font-size: clamp(1.8rem, 8vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+.profile-recommendation-amount span {
+  font-size: 1rem;
+  font-weight: 650;
+}
+.profile-recommendation p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 0.79rem;
+  line-height: 1.4;
+}
+.profile-recommendation .reference-button {
+  min-height: 44px;
+  border-radius: 9px;
+  white-space: nowrap;
+  font-weight: 650;
+}
+.profile-recommendation .reference-button[aria-disabled='true'] {
+  color: var(--lime);
+  background: transparent;
+  cursor: default;
+  opacity: 1;
+}
+.profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.onboarding-screen .profile-form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-block-start: 24px;
+}
+.onboarding-screen .profile-recommendation {
+  padding: 14px 0 0;
+  border: 0;
+  border-block-start: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+}
+.onboarding-screen .profile-number {
+  background: var(--surface);
+}
+.onboarding-screen .profile-purpose input:checked + span {
+  border-color: color-mix(in srgb, var(--lime) 52%, var(--line));
+  background: color-mix(in srgb, var(--lime) 9%, var(--canvas));
+  color: var(--lime);
+}
+.onboarding-screen .profile-actions {
+  display: grid;
+  justify-content: stretch;
+  margin-block-start: auto;
+  padding-block-start: 10px;
+}
+.onboarding-screen .setting-button,
+.start-card .setting-button,
+.settings-screen .setting-button {
+  min-height: 44px;
+  border-radius: 10px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.onboarding-screen .strong-action {
+  min-height: 52px;
+  border-radius: 14px;
+}
+.onboarding-screen .strong-action,
+.start-card .strong-action,
+.settings-screen .strong-action {
+  background: var(--lime);
+  color: var(--canvas);
+}
+.onboarding-screen .strong-action:hover,
+.start-card .strong-action:hover,
+.settings-screen .strong-action:hover {
+  background: color-mix(in srgb, var(--lime) 86%, white);
+}
+@media (max-width: 400px) {
+  .profile-purpose span {
+    padding-inline: 8px;
+  }
+}
+@media (max-width: 370px) {
+  .profile-recommendation {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+}
+@media (max-height: 560px) {
+  .start-screen {
+    min-height: 0;
+    padding-block: 0;
+  }
+}

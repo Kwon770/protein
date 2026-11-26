@@ -1,0 +1,244 @@
+.settings-information {
+  max-inline-size: 46rem;
+  margin-inline: auto;
+  color: var(--text);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.settings-info-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-block-end: clamp(14px, 3vw, 24px);
+}
+
+.settings-info-header .settings-info-back {
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+  margin-inline-start: -5px;
+  color: var(--muted);
+}
+
+.settings-info-header h1 {
+  font-size: clamp(1.6rem, 3.8vw, 2.35rem);
+  font-weight: 710;
+  line-height: 1.22;
+  letter-spacing: -0.045em;
+}
+
+.settings-info-header h1:focus {
+  outline: none;
+}
+
+.settings-info-document.panel {
+  padding: clamp(18px, 4vw, 32px);
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.settings-info-document section + section,
+.settings-info-document > p + section,
+.settings-info-document > a + section {
+  margin-block-start: 22px;
+  padding-block-start: 22px;
+  border-block-start: 1px solid var(--line);
+}
+
+.settings-info-document > a {
+  margin-block-start: 16px;
+  color: var(--lime);
+}
+
+.settings-info-document h2 {
+  margin-block-end: 7px;
+  font-size: 1.05rem;
+  line-height: 1.45;
+  font-weight: 670;
+}
+
+.settings-info-document p,
+.settings-info-answer {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.settings-info-document p + p,
+.settings-info-answer p + p {
+  margin-block-start: 9px;
+}
+
+.settings-info-version.panel,
+.settings-info-tools.panel,
+.settings-info-disclosures.panel {
+  padding-inline: clamp(16px, 3vw, 25px);
+}
+
+.settings-info-version > div,
+.settings-info-contact,
+.settings-info-disclosures summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  min-block-size: 56px;
+  padding-block: 11px;
+}
+
+.settings-info-version > div + div,
+.settings-info-contact,
+.settings-info-disclosures details + details {
+  border-block-start: 1px solid var(--line);
+}
+
+.settings-info-contact > span {
+  display: grid;
+  gap: 4px;
+}
+
+.settings-info-contact strong {
+  font-size: 0.98rem;
+  font-weight: 610;
+}
+
+.settings-info-contact > span > span {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.settings-info-contact svg {
+  flex: none;
+  color: var(--muted);
+}
+
+.settings-info-version dt {
+  color: var(--muted);
+}
+
+.settings-info-version dd {
+  margin: 0;
+  text-align: end;
+  font-weight: 610;
+}
+
+.settings-info-tools {
+  margin-block-start: 14px;
+}
+
+.settings-info-language {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  padding-block: 14px;
+}
+
+.settings-info-language h2 {
+  font-size: 0.98rem;
+  font-weight: 610;
+}
+
+.settings-info-language p {
+  margin-block-start: 4px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.settings-info-language > button,
+.settings-info-tools > button {
+  min-block-size: 44px;
+}
+
+.settings-info-tools > button {
+  margin-block-end: 8px;
+  margin-inline-start: -8px;
+}
+
+.settings-info-licenses {
+  margin-block-start: 26px;
+}
+
+.settings-info-licenses h2 {
+  margin-block-end: 12px;
+}
+
+.settings-info-disclosures summary {
+  list-style: none;
+  font-size: 0.98rem;
+  font-weight: 610;
+  cursor: pointer;
+}
+
+.settings-info-disclosures summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings-info-disclosures summary:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.settings-info-disclosures summary svg {
+  flex: none;
+  color: var(--muted);
+}
+
+.settings-info-disclosures details[open] > summary svg {
+  transform: rotate(180deg);
+}
+
+.settings-info-answer {
+  padding-block-end: 15px;
+}
+
+.settings-info-answer a,
+.settings-info-answer .settings-info-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-block-size: 44px;
+  margin-block-start: 4px;
+  color: var(--lime);
+}
+
+.settings-info-answer a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.settings-info-answer .settings-info-link {
+  margin-inline-start: -8px;
+}
+
+.meal-help-list {
+  padding-inline-start: 1.4em;
+  margin-block: 12px;
+}
+
+.meal-help-list strong {
+  color: var(--text);
+}
+
+.meal-help-list li + li {
+  margin-block-start: 6px;
+}
+
+.meal-help-sources {
+  list-style: none;
+  padding-inline-start: 0;
+  margin-block-end: 0;
+}
+
+.settings-info-license {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: 0.8rem;
+  user-select: text;
+  -webkit-user-select: text;
+}
