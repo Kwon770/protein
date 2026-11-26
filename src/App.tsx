@@ -22,6 +22,7 @@ import { appReducer, createInitialState, createRecord, type AppAction, type AppS
 import { clearPrivateFoodCache, deletePrivateFood, savePrivateFood, usePrivateFoods } from './app/private-foods'
 import { isEveningReminderSupported, onEveningReminderTap, reminderPermissionMessage, restoreEveningReminder } from './app/reminder'
 import { dispatch as dispatchAccount, getOnboarding, getSnapshot, saveOnboarding, subscribeState } from './app/storage'
+import { BrandIcon } from './components/BrandIcon'
 import type { WithdrawalResult } from './screens/AccountWithdrawal'
 const HomeScreen = lazy(() =>
   import('./screens/HomeScreen').then((module) => ({ default: module.HomeScreen })),
@@ -215,7 +216,7 @@ function HomePreview() {
     <div className="app-shell" data-screen="home">
       <header className="masthead">
         <div className="masthead-inner">
-          <span className="brand"><span className="brand-mark" aria-hidden="true"><span /></span>{appName}</span>
+          <span className="brand"><BrandIcon />{appName}</span>
           <nav className="desktop-nav" aria-label="주요 메뉴">
             <NavigationLinks page="home" homeOnly onNavigate={scrollHome} />
           </nav>
@@ -523,9 +524,7 @@ function AccountApp() {
               openFromTop('home')
             }}
           >
-            <span className="brand-mark" aria-hidden="true">
-              <span />
-            </span>
+            <BrandIcon />
             {appName}
           </a>
           {appReady && (

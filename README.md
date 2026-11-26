@@ -72,3 +72,5 @@ Supabase Auth의 Redirect URLs에 앱을 실행하는 웹 주소와 `com.sckwon7
 회원 탈퇴 기능을 제공하려면 `supabase/functions/delete-account/index.ts`를 배포합니다. 이 함수는 로그인한 요청자 본인의 Auth 계정을 삭제합니다. 데이터베이스는 계정에 저장된 음식도 함께 삭제하고, 성공 응답을 받은 앱은 해당 기기의 기록과 설정을 지웁니다. 관리자 자격 증명은 함수 실행 환경에서만 사용합니다.
 
 Play Console에 제출할 개인정보 처리방침과 외부 계정 삭제 요청 페이지는 웹으로 배포한 앱의 `/#profile/privacy`와 `/#profile/account-deletion`입니다. 계정 삭제 요청 페이지에서는 운영자에게 이메일로 삭제를 요청할 수 있습니다.
+
+웹 링크 공유 시 앱 이미지가 표시되도록 배포 환경에 공개 웹 주소를 `SITE_URL`로 지정한 뒤 빌드합니다. 이 주소로 Open Graph 및 X 미리보기 이미지의 절대 URL을 생성합니다.

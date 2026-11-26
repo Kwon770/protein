@@ -1,11 +1,12 @@
 import { useId, useLayoutEffect, useRef, useState, type FormEvent } from 'react'
 import { Button } from '@astryxdesign/core/Button'
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import shakerLogo from '../assets/images/way-to-go-logo.webp'
 import type { AccountProvider } from '../app/account'
 import { appName } from '../app/branding'
 import { recommendGoal, type AppState, type Profile, type ProfileSex, type Purpose } from '../app/model'
+import { BrandIcon } from '../components/BrandIcon'
 import { OAuthButtons } from '../components/OAuthButtons'
-import { ProteinShaker } from '../components/ProteinShaker'
 import './start.css'
 
 const purposes: { value: Purpose; label: string }[] = [
@@ -349,7 +350,7 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
       <div className="onboarding-top">
         {screen === 'welcome' ? (
           <div className="brand onboarding-brand">
-            <span className="brand-mark" aria-hidden="true"><span /></span>
+            <BrandIcon />
             {appName}
           </div>
         ) : (
@@ -386,9 +387,7 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
 
       {screen !== 'setup' && (
         <div className="onboarding-illustration" aria-hidden="true">
-          <div className="onboarding-shaker">
-            <ProteinShaker value={72} max={100} />
-          </div>
+          <img className="onboarding-shaker" src={shakerLogo} alt="" width={396} height={588} draggable={false} />
         </div>
       )}
 

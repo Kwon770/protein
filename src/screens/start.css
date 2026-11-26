@@ -42,9 +42,6 @@
   align-items: center;
   min-block-size: 44px;
 }
-.onboarding-brand .brand-mark {
-  flex: none;
-}
 .onboarding-top .onboarding-back {
   width: 44px;
   height: 44px;
@@ -80,15 +77,12 @@
   background: radial-gradient(ellipse 44% 43% at center, #98705524, transparent 100%);
 }
 .onboarding-shaker {
-  inline-size: clamp(74px, 15dvh, 136px);
-  transform: rotate(-11deg);
-  filter: drop-shadow(12px 16px 15px #0008);
+  display: block;
+  inline-size: auto;
+  block-size: clamp(124px, 28dvh, 240px);
 }
 .onboarding-screen[data-stage='login'] .onboarding-shaker {
-  inline-size: clamp(52px, 11dvh, 96px);
-}
-.onboarding-shaker .protein-shaker__ball-float {
-  animation: none;
+  block-size: clamp(96px, 19dvh, 168px);
 }
 @media (max-height: 500px) {
   .onboarding-screen[data-stage='login'] .onboarding-illustration { display: none; }
