@@ -3,6 +3,7 @@ import { appSlug } from './branding'
 import {
   appReducer, createInitialState, normalizeQuickFoods, type AppAction, type AppState, type Profile,
 } from './model'
+import { reconcileTracking, trackingData, trackingOperation, type TrackingData, type TrackingOperation } from './tracking-changes'
 
 export const ownerFoodCachePrefix = `${appSlug}-private-foods-v1:`
 const accountStatePrefix = `${appSlug}-account-state-v1:`
@@ -15,7 +16,8 @@ const onboardingStorage = () => Capacitor.isNativePlatform() ? window.localStora
 
 type SetupDraft = { profile: Profile; goalG: number }
 type Onboarding = { login: boolean; setup?: SetupDraft }
-type Snapshot = { state: AppState; saveError: boolean }
+type StoredAccount = AppState & { tracking?: { revision: number | null; pending: TrackingOperation[] } }
+type Snapshot = { state: StoredAccount; saveError: boolean }
 type LegacyState = Partial<AppState> & {
   accountFoodPreferences?: Record<string, Pick<Partial<AppState>, 'favoriteFoodIds' | 'quickFoodIds'>>
 }
@@ -52,12 +54,12 @@ function readLegacyState(): LegacyState | null {
   }
 }
 
-function readAccountState(ownerId: string): AppState {
+function readAccountState(ownerId: string): StoredAccount {
   try {
     const raw = localStorage.getItem(accountStatePrefix + ownerId)
       ?? localStorage.getItem(previousAccountStatePrefix + ownerId)
     if (raw) {
-      const saved = JSON.parse(raw) as AppState
+      const saved = JSON.parse(raw) as StoredAccount
       if (saved?.schemaVersion === 1 && Array.isArray(saved.records) && Array.isArray(saved.favoriteFoodIds)) {
         return {
           ...initial,
@@ -117,9 +119,7 @@ export function getSnapshot(ownerId?: string): Snapshot {
   return loaded
 }
 
-export function dispatch(ownerId: string, action: AppAction) {
-  const current = getSnapshot(ownerId)
-  const state = appReducer(current.saveError ? current.state : readAccountState(ownerId), action)
+function saveAccountState(ownerId: string, state: StoredAccount) {
   try {
     localStorage.setItem(accountStatePrefix + ownerId, JSON.stringify(state))
     localStorage.removeItem(previousAccountStatePrefix + ownerId)
@@ -128,6 +128,51 @@ export function dispatch(ownerId: string, action: AppAction) {
     snapshots.set(ownerId, { state, saveError: true })
   }
   notify()
+}
+
+function latestAccountState(ownerId: string) {
+  const current = getSnapshot(ownerId)
+  return current.saveError ? current.state : readAccountState(ownerId)
+}
+
+export function dispatch(ownerId: string, action: AppAction) {
+  const current = latestAccountState(ownerId)
+  const state = appReducer(current, action)
+  const operation = trackingOperation(action, state)
+  saveAccountState(ownerId, {
+    ...state,
+    tracking: operation
+      ? { revision: current.tracking?.revision ?? null, pending: [...(current.tracking?.pending ?? []), operation] }
+      : current.tracking,
+  })
+}
+
+export function trackingBatch(ownerId: string) {
+  const state = latestAccountState(ownerId)
+  const seed = state.tracking?.revision != null ? null : {
+    ...trackingData(state),
+    importFavorites: state.favoriteFoodIds.length > 0,
+    importQuick: JSON.stringify(state.quickFoodIds) !== JSON.stringify(initial.quickFoodIds),
+  }
+  return {
+    seed,
+    operations: state.tracking?.pending ?? [],
+  }
+}
+
+export function acceptTracking(ownerId: string, remote: TrackingData & { revision: number }, sent: readonly TrackingOperation[]) {
+  const current = latestAccountState(ownerId)
+  const acknowledged = new Set(sent.map(({ id }) => id))
+  const pending = (current.tracking?.pending ?? []).filter(({ id }) => !acknowledged.has(id))
+  const currentRevision = current.tracking?.revision ?? -1
+  const useRemote = remote.revision >= currentRevision
+  if (remote.revision === currentRevision && !sent.length && !getSnapshot(ownerId).saveError) return true
+  saveAccountState(ownerId, {
+    ...current,
+    ...(useRemote ? reconcileTracking(remote, pending) : {}),
+    tracking: { revision: Math.max(currentRevision, remote.revision), pending },
+  })
+  return useRemote
 }
 
 export const getOnboarding = () => onboarding

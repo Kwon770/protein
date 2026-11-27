@@ -45,9 +45,9 @@ export function WithdrawalConfirmation({
   return (
     <WithdrawalPage onBack={onBack}>
       <h2 role="status">회원 탈퇴를 완료했어요</h2>
-      {result.localDataCleared ? <p>{appName} 계정과 이 기기의 개인 기록을 삭제했어요.</p> : (
+      {result.localDataCleared ? <p>{appName} 계정과 이 기기에 있는 해당 계정의 데이터를 삭제했어요.</p> : (
         <>
-          <p>계정은 삭제됐어요. 이 기기의 개인 기록을 지우려면 다시 시도해 주세요.</p>
+          <p>계정은 삭제했어요. 이 기기에 남은 해당 계정의 데이터를 지우려면 다시 시도해 주세요.</p>
           <Button
             className="withdrawal-action"
             label="다시 시도"
@@ -113,7 +113,7 @@ export function AccountWithdrawal({
         <>
           <h2>{appName} 계정을 삭제할까요?</h2>
           {user.email && <p>{user.email}</p>}
-          <p>탈퇴하면 계정과 이 기기에 저장된 해당 계정의 섭취 기록, 프로필, 목표, 설정이 삭제돼요.</p>
+          <p>탈퇴하면 계정의 섭취 기록, 즐겨찾기, 빠른 기록 목록과 직접 추가한 음식이 삭제돼요. 이 기기에 저장된 프로필, 목표와 설정도 지워져요.</p>
           <Button
             ref={withdrawalButton}
             className="withdrawal-action"
@@ -133,7 +133,7 @@ export function AccountWithdrawal({
         <AlertDialog
           isOpen
           title="정말 회원 탈퇴할까요?"
-          description={appName + ' 계정과 이 기기에 저장된 해당 계정의 기록과 설정이 삭제돼요. 삭제한 데이터는 복구할 수 없어요.'}
+          description={appName + ' 계정을 삭제하면 서버와 이 기기에 있는 해당 계정의 데이터가 삭제돼요. 삭제한 데이터는 복구할 수 없어요.'}
           cancelLabel="취소"
           actionLabel="탈퇴하기"
           isActionLoading={deleting}

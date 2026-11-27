@@ -104,7 +104,7 @@ function Help({ onNavigate }: Pick<SettingsInformationProps, 'onNavigate'>) {
       <details>
         <DisclosureTitle>내 기록은 어디에 저장되나요?</DisclosureTitle>
         <div className="settings-info-answer">
-          <p>섭취 기록과 설정은 이 기기에서 로그인한 계정별로 저장돼요. 직접 추가한 음식은 같은 계정으로 로그인하면 다른 기기에서도 사용할 수 있어요.</p>
+          <p>섭취 기록, 즐겨찾기, 빠른 기록 목록과 직접 추가한 음식은 계정에 저장돼요. 같은 계정으로 로그인하면 다른 기기에서도 불러올 수 있어요. 프로필, 하루 목표와 알림 설정은 이 기기에 보관해요.</p>
           <Button
             className="settings-info-link"
             label="개인정보 처리방침 보기"
@@ -234,11 +234,11 @@ function AccountDeletionInformation() {
       </a>
       <section>
         <h2>삭제되는 데이터</h2>
-        <p>계정과 계정에 등록한 음식이 삭제돼요. 각 기기에 저장된 섭취 기록, 프로필, 목표와 설정은 해당 기기의 앱 저장 데이터나 브라우저 사이트 데이터를 지워 삭제할 수 있어요.</p>
+        <p>계정과 계정에 저장된 섭취 기록, 즐겨찾기, 빠른 기록 목록, 직접 추가한 음식이 삭제돼요. 각 기기에 남은 사본과 설정은 해당 기기의 앱 저장 데이터나 브라우저 사이트 데이터를 지우면 삭제돼요.</p>
       </section>
       <section>
         <h2>앱에서 탈퇴하기</h2>
-        <p>앱의 내 설정에서 회원 탈퇴를 선택하면 계정과 등록 음식, 탈퇴에 사용한 기기의 앱 데이터가 함께 삭제돼요.</p>
+        <p>앱의 내 설정에서 회원 탈퇴를 선택하면 계정과 탈퇴에 사용한 기기에 있는 해당 계정의 데이터가 함께 삭제돼요.</p>
       </section>
     </div>
   )

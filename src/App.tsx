@@ -22,6 +22,7 @@ import { appReducer, createInitialState, createRecord, type AppAction, type AppS
 import { clearPrivateFoodCache, deletePrivateFood, savePrivateFood, usePrivateFoods } from './app/private-foods'
 import { isEveningReminderSupported, onEveningReminderTap, reminderPermissionMessage, restoreEveningReminder } from './app/reminder'
 import { dispatch as dispatchAccount, getOnboarding, getSnapshot, saveOnboarding, subscribeState } from './app/storage'
+import { useAccountTracking } from './app/tracking-sync'
 import { BrandIcon } from './components/BrandIcon'
 import type { WithdrawalResult } from './screens/AccountWithdrawal'
 const HomeScreen = lazy(() =>
@@ -254,6 +255,7 @@ function AccountApp() {
   const account = useSyncExternalStore(subscribeAccount, getAccountSnapshot)
   const ownerId = account.user?.id
   const { state, saveError } = useSyncExternalStore(subscribeState, () => getSnapshot(ownerId))
+  const trackingSyncError = useAccountTracking(ownerId)
   const onboarding = useSyncExternalStore(subscribeState, getOnboarding)
   const publicFoods = useFoodCatalog()
   const privateFoods = usePrivateFoods(ownerId)
@@ -539,6 +541,11 @@ function AccountApp() {
         {saveError && (
           <p className="storage-error" role="alert">
             이 브라우저에 저장할 수 없어요. 창을 닫으면 변경 사항이 사라질 수 있어요.
+          </p>
+        )}
+        {trackingSyncError && (
+          <p className="storage-error" role="status">
+            섭취 기록, 즐겨찾기와 빠른 기록을 동기화하지 못했어요. 연결되면 다시 시도해요.
           </p>
         )}
         <Suspense
