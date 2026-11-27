@@ -4,8 +4,6 @@ import { Capacitor } from '@capacitor/core'
 import type { SupabaseClient, User } from '@supabase/supabase-js'
 import { appSlug } from './branding'
 
-export type AccountProvider = 'google' | 'apple'
-
 interface AccountSnapshot {
   loading: boolean
   user: User | null
@@ -185,19 +183,7 @@ export function getSupabaseClient(): Promise<SupabaseClient | null> {
   return clientPromise
 }
 
-export async function getAccountProviders(signal: AbortSignal): Promise<AccountProvider[]> {
-  const response = await fetch(`${supabaseUrl.replace(/\/+$/, '')}/auth/v1/settings`, {
-    headers: { apikey: supabaseKey },
-    cache: 'no-store',
-    signal,
-  })
-  if (!response.ok) throw new Error('Could not load login methods')
-  const settings = await response.json() as { external?: Partial<Record<AccountProvider, boolean>> }
-  if (!settings?.external) throw new Error('Missing login methods')
-  return (['google', 'apple'] as const).filter((provider) => settings.external?.[provider] === true)
-}
-
-export async function signInWithAccountProvider(provider: AccountProvider) {
+export async function signInWithGoogle() {
   const client = await clientPromise
   if (!client) throw new Error('현재 로그인할 수 없어요.')
   if (snapshot.loading || snapshot.user) return
@@ -205,7 +191,7 @@ export async function signInWithAccountProvider(provider: AccountProvider) {
 
   try {
     const { data, error } = await client.auth.signInWithOAuth({
-      provider,
+      provider: 'google',
       options: {
         redirectTo: accountRedirectUrl().href,
         skipBrowserRedirect: true,

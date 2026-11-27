@@ -1,11 +1,8 @@
 import { useId, useLayoutEffect, useRef, useState, type FormEvent } from 'react'
 import { Button } from '@astryxdesign/core/Button'
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Check, Pencil } from 'lucide-react'
 import shakerLogo from '../assets/images/way-to-go-logo.webp'
-import type { AccountProvider } from '../app/account'
-import { appName } from '../app/branding'
-import { recommendGoal, type AppState, type Profile, type ProfileSex, type Purpose } from '../app/model'
-import { BrandIcon } from '../components/BrandIcon'
+import { recommendGoal, type Profile, type ProfileSex, type Purpose } from '../app/model'
 import { OAuthButtons } from '../components/OAuthButtons'
 import './start.css'
 
@@ -20,23 +17,27 @@ const sexOptions: { value: ProfileSex | ''; label: string }[] = [
   { value: '', label: '선택 안 함' },
 ]
 
-interface ProfileFormProps {
+interface ProfileFieldsProps {
   profile?: Profile
-  goal?: number
-  submitLabel?: string
+  submitLabel: string
+}
+
+interface ProfileWithGoalProps extends ProfileFieldsProps {
+  goal: number
   onSave: (profile: Profile, goal: number) => void
   onSaveGoalOnly?: (goal: number) => void
   onCancel?: () => void
 }
 
-function ProfileForm({
-  profile,
-  goal,
-  submitLabel = goal === undefined ? '프로필 저장' : '저장하고 시작하기',
-  onSave,
-  onSaveGoalOnly,
-  onCancel,
-}: ProfileFormProps) {
+type ProfileFormProps = ProfileWithGoalProps | (ProfileFieldsProps & {
+  goal?: undefined
+  onSave: (profile: Profile) => void
+  onSaveGoalOnly?: undefined
+  onCancel?: undefined
+})
+
+function ProfileForm(props: ProfileFormProps) {
+  const { profile, goal, submitLabel, onSaveGoalOnly, onCancel } = props
   const [initialProfile] = useState(profile)
   const [height, setHeight] = useState(String(profile?.heightCm ?? ''))
   const [weight, setWeight] = useState(String(profile?.weightKg ?? ''))
@@ -80,8 +81,10 @@ function ProfileForm({
       draft.purpose === initialProfile?.purpose
     if (onSaveGoalOnly && (!requiresProfile || profileUnchanged)) {
       onSaveGoalOnly(Number(goalDraft))
+    } else if (props.goal === undefined) {
+      props.onSave(draft)
     } else {
-      onSave(draft, Number(goalDraft))
+      props.onSave(draft, Number(goalDraft))
     }
   }
 
@@ -257,18 +260,19 @@ function ProfileForm({
   )
 }
 
+type OnboardingSetup = { profile: Profile; goalG: number }
+
 interface StartScreenProps {
-  state: AppState
+  setup?: OnboardingSetup
   stage: 'welcome' | 'setup' | 'login'
   auth: { loading: boolean; error: string | null; available: boolean }
   onComplete: (profile: Profile, goal: number) => void
   onShowLogin: () => void
   onBack: () => void
-  onSignIn: (provider: AccountProvider) => Promise<void>
+  onSignIn: () => Promise<void>
 }
 
-interface GoalSetupScreenProps extends ProfileFormProps {
-  goal: number
+interface GoalSetupScreenProps extends ProfileWithGoalProps {
   backLabel: string
   onCancel: () => void
   className?: string
@@ -306,13 +310,136 @@ export function GoalSetupScreen({ backLabel, className, ...formProps }: GoalSetu
   )
 }
 
-export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBack, onSignIn }: StartScreenProps) {
-  const [editing, setEditing] = useState(false)
+interface OnboardingGoalProps {
+  profile: Profile
+  custom: boolean
+  goalDraft: string | null
+  completeLabel: string
+  onChooseCustom: (custom: boolean) => void
+  onChangeGoal: (value: string) => void
+  onContinue: (goal: number) => void
+}
+
+function OnboardingGoal({
+  profile, custom, goalDraft, completeLabel, onChooseCustom, onChangeGoal, onContinue,
+}: OnboardingGoalProps) {
+  const reference = recommendGoal(profile)
+  const purposeLabel = purposes.find(({ value }) => value === profile.purpose)?.label
+  const maximumGoal = Math.max(300, reference)
+  const [invalid, setInvalid] = useState(false)
+  const input = useRef<HTMLInputElement>(null)
+  const customButton = useRef<HTMLButtonElement>(null)
+  const changingMode = useRef(false)
+  const errorId = useId()
+
+  useLayoutEffect(() => {
+    if (!changingMode.current) return
+    changingMode.current = false
+    if (custom) {
+      input.current?.focus()
+      input.current?.select()
+    } else {
+      customButton.current?.focus()
+    }
+  }, [custom])
+
+  function chooseCustom(next: boolean) {
+    setInvalid(false)
+    changingMode.current = true
+    onChooseCustom(next)
+  }
+
+  function save(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (!custom) {
+      onContinue(reference)
+      return
+    }
+    if (input.current?.validity.valid) {
+      onContinue(input.current.valueAsNumber)
+    } else {
+      setInvalid(true)
+      input.current?.focus()
+    }
+  }
+
+  return (
+    <form className="onboarding-goal" noValidate onSubmit={save}>
+      <section className="onboarding-goal-recommendation" aria-labelledby="onboarding-recommendation-title">
+        <h2 id="onboarding-recommendation-title">추천 목표</h2>
+        <p className="onboarding-goal-amount"><strong>{reference}</strong><span>g</span></p>
+        <p className="onboarding-goal-basis">몸무게 {profile.weightKg}kg · {purposeLabel} 기준</p>
+      </section>
+      {custom ? (
+        <div className="onboarding-goal-custom">
+          <label className="profile-field">
+            내 목표
+            <span className="profile-number">
+              <input
+                ref={input}
+                type="number"
+                inputMode="numeric"
+                min={20}
+                max={maximumGoal}
+                step={1}
+                required
+                value={goalDraft ?? String(reference)}
+                onChange={(event) => {
+                  onChangeGoal(event.target.value)
+                  setInvalid(false)
+                }}
+                aria-label="내 단백질 목표 (g)"
+                aria-invalid={invalid || undefined}
+                aria-describedby={invalid ? errorId : undefined}
+              />
+              <span>g</span>
+            </span>
+            {invalid && <span id={errorId} className="profile-field-error" role="alert">20~{maximumGoal}g 사이의 정수를 입력해 주세요.</span>}
+          </label>
+          <Button
+            label="추천 목표 사용"
+            className="goal-mode-button"
+            type="button"
+            variant="ghost"
+            onClick={() => chooseCustom(false)}
+          />
+        </div>
+      ) : (
+        <Button
+          ref={customButton}
+          label="목표 직접 입력"
+          className="goal-mode-button"
+          type="button"
+          variant="ghost"
+          icon={<Pencil size={16} aria-hidden="true" />}
+          onClick={() => chooseCustom(true)}
+        />
+      )}
+      <div className="profile-actions">
+        <Button
+          className="setting-button strong-action"
+          label={custom ? completeLabel : `${reference}g으로 계속`}
+          variant="primary"
+          type="submit"
+          width="100%"
+        />
+      </div>
+    </form>
+  )
+}
+
+export function StartScreen({ setup, stage, auth, onComplete, onShowLogin, onBack, onSignIn }: StartScreenProps) {
+  const [step, setStep] = useState<'welcome' | 'profile' | 'goal'>('welcome')
+  const [profile, setProfile] = useState(setup?.profile)
+  const [custom, setCustom] = useState(() => !!setup && setup.goalG !== recommendGoal(setup.profile))
+  const [goalDraft, setGoalDraft] = useState(() =>
+    setup && setup.goalG !== recommendGoal(setup.profile) ? String(setup.goalG) : null,
+  )
   const [requesting, setRequesting] = useState(false)
   const [failed, setFailed] = useState(false)
   const title = useRef<HTMLHeadingElement>(null)
   const editButton = useRef<HTMLButtonElement>(null)
-  const screen = stage === 'welcome' && editing ? 'setup' : stage
+  const screen = stage === 'login' ? 'login' : stage === 'setup' && step === 'welcome' ? 'profile' : step
   const authenticatedSetup = stage === 'setup'
   const pending = requesting || auth.loading
   const authError = auth.error ?? (failed ? '로그인을 시작하지 못했어요. 다시 시도해 주세요.' : null)
@@ -323,21 +450,33 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
   }, [screen])
 
   function goBack() {
-    setEditing(false)
     setFailed(false)
-    if (screen === 'setup' && !authenticatedSetup) {
+    if (screen === 'goal') {
+      setStep('profile')
+      return
+    }
+    if (screen === 'profile' && !authenticatedSetup) {
+      setStep('welcome')
       requestAnimationFrame(() => editButton.current?.focus({ preventScroll: true }))
       return
     }
+    setStep(screen === 'login' && setup ? 'goal' : 'welcome')
     onBack()
   }
 
-  async function signIn(provider: AccountProvider) {
+  function signInToExistingAccount() {
+    setProfile(undefined)
+    setCustom(false)
+    setGoalDraft(null)
+    onShowLogin()
+  }
+
+  async function signIn() {
     if (pending || !auth.available) return
     setFailed(false)
     setRequesting(true)
     try {
-      await onSignIn(provider)
+      await onSignIn()
     } catch {
       setFailed(true)
     } finally {
@@ -347,15 +486,12 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
 
   return (
     <section className="onboarding-screen" data-stage={screen} aria-labelledby="onboarding-title">
-      <div className="onboarding-top">
-        {screen === 'welcome' ? (
-          <div className="brand onboarding-brand">
-            <BrandIcon />
-            {appName}
-          </div>
-        ) : (
+      {screen !== 'welcome' && (
+        <div className="onboarding-top">
           <Button
-            label={authenticatedSetup ? '로그아웃하고 시작 화면으로 돌아가기' : '시작 화면으로 돌아가기'}
+            label={screen === 'goal' ? '프로필 입력으로 돌아가기'
+              : screen === 'login' && setup ? '목표 설정으로 돌아가기'
+                : authenticatedSetup ? '로그아웃하고 시작 화면으로 돌아가기' : '시작 화면으로 돌아가기'}
             icon={<ArrowLeft size={22} />}
             className="onboarding-back"
             data-android-back
@@ -364,28 +500,49 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
             isDisabled={pending}
             onClick={goBack}
           />
-        )}
-      </div>
+          {(screen === 'profile' || screen === 'goal') && (
+            <span className="onboarding-step" aria-label={screen === 'profile' ? '2단계 중 1단계' : '2단계 중 2단계'}>
+              {screen === 'profile' ? '1' : '2'} / 2
+            </span>
+          )}
+        </div>
+      )}
 
       <header className="onboarding-heading">
         <h1 id="onboarding-title" ref={title} tabIndex={-1}>
           {screen === 'welcome' && <>단백질 기록<br />시작하기</>}
-          {screen === 'setup' && '프로필과 목표 설정'}
+          {screen === 'profile' && '프로필 입력'}
+          {screen === 'goal' && '하루 단백질 목표'}
           {screen === 'login' && '계정으로 시작하기'}
         </h1>
         {screen === 'welcome' && <p>하루 목표를 정하고 먹은 음식의 단백질을 기록해 보세요.</p>}
+        {screen === 'profile' && <p>입력한 정보를 바탕으로 하루 단백질 목표를 추천해요.</p>}
       </header>
 
-      {screen === 'setup' && (
+      {screen === 'profile' && (
         <ProfileForm
-          profile={state.profileConfigured ? state.profile : undefined}
-          goal={state.goalG}
-          submitLabel={authenticatedSetup ? '저장하고 시작하기' : '로그인으로 계속'}
-          onSave={onComplete}
+          profile={profile}
+          submitLabel="목표 설정으로 계속"
+          onSave={(nextProfile) => {
+            setProfile(nextProfile)
+            setStep('goal')
+          }}
         />
       )}
 
-      {screen !== 'setup' && (
+      {screen === 'goal' && profile && (
+        <OnboardingGoal
+          profile={profile}
+          custom={custom}
+          goalDraft={goalDraft}
+          completeLabel={authenticatedSetup ? '저장하고 시작하기' : '내 목표로 계속'}
+          onChooseCustom={setCustom}
+          onChangeGoal={setGoalDraft}
+          onContinue={(goal) => onComplete(profile, goal)}
+        />
+      )}
+
+      {(screen === 'welcome' || screen === 'login') && (
         <div className="onboarding-illustration" aria-hidden="true">
           <img className="onboarding-shaker" src={shakerLogo} alt="" width={396} height={588} draggable={false} />
         </div>
@@ -400,14 +557,14 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
             variant="primary"
             className="setting-button strong-action"
             endContent={<ArrowRight size={18} />}
-            onClick={() => setEditing(true)}
+            onClick={() => setStep('profile')}
           />
           <Button
             label="이미 계정이 있어요"
             variant="ghost"
             width="100%"
             className="setting-button"
-            onClick={onShowLogin}
+            onClick={signInToExistingAccount}
           />
         </div>
       )}
@@ -420,7 +577,7 @@ export function StartScreen({ state, stage, auth, onComplete, onShowLogin, onBac
               {authError ?? '현재 이 환경에서 로그인할 수 없어요.'}
             </p>
           )}
-          {auth.available && <OAuthButtons disabled={pending} onSignIn={(provider) => void signIn(provider)} />}
+          <OAuthButtons disabled={pending || !auth.available} onSignIn={() => void signIn()} />
           <div className="start-legal">
             <a href="#profile/terms">서비스 이용약관</a>
             <a href="#profile/privacy">개인정보 처리방침</a>

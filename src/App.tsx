@@ -14,7 +14,7 @@ import {
 import { BookOpen, Check, CircleUserRound, House, Search } from 'lucide-react'
 import { App as NativeApp } from '@capacitor/app'
 import { Capacitor } from '@capacitor/core'
-import { accountAvailable, getAccountSnapshot, signInWithAccountProvider, signOutAccount, subscribeAccount } from './app/account'
+import { accountAvailable, getAccountSnapshot, signInWithGoogle, signOutAccount, subscribeAccount } from './app/account'
 import { appName } from './app/branding'
 import { useFoodCatalog } from './app/catalog-cache'
 import { catalogFoods, type CatalogFood } from './app/data'
@@ -280,7 +280,6 @@ function AccountApp() {
   const activeScreen = starting ? 'start' : confirmWithdrawal ? 'profile' : page
   const finishingSetup = Boolean(ownerId && onboarding.login && onboarding.setup && !state.profileConfigured)
   const checkingSession = !ownerId && account.loading && !onboarding.login
-  const startState = onboarding.setup ? { ...state, ...onboarding.setup, profileConfigured: true } : state
   const pageTitle = navigation.find((item) => item.id === page)?.label
   const mobileTitle = confirmWithdrawal
     ? '회원 탈퇴'
@@ -564,16 +563,16 @@ function AccountApp() {
             <p className="loading-page" role="status">로그인 상태를 확인하는 중…</p>
           ) : starting ? (
             <StartScreen
-              state={startState}
+              setup={onboarding.setup}
               stage={ownerId ? 'setup' : onboarding.login ? 'login' : 'welcome'}
               auth={{ available: accountAvailable, loading: account.loading, error: account.error }}
               onComplete={completeSetup}
-              onShowLogin={() => saveOnboarding({ ...onboarding, login: true })}
+              onShowLogin={() => saveOnboarding({ login: true })}
               onBack={() => {
                 if (ownerId) void signOut(false)
                 else saveOnboarding({ ...onboarding, login: false })
               }}
-              onSignIn={signInWithAccountProvider}
+              onSignIn={signInWithGoogle}
             />
           ) : page === 'home' ? (
             <HomePage
