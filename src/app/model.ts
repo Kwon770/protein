@@ -3,7 +3,7 @@ export type ProfileSex = "male" | "female";
 export type FoodKind = "food" | "meal";
 export type RecordSource = "quick" | "food" | "estimate";
 export const MAX_QUICK_FOODS = 5;
-const starterFoodIds = ["heodak-fit-original", "orion-dr-you-bar", "eggs"];
+const starterQuickFoodIds = ["eggs", "product-4bba4b3a2b9c6bde", "meal-meat-fish"];
 export type FoodPortion = {
   amount: number;
   unit: "g" | "개" | "회분" | "컵" | "그릇" | "팩" | "병" | "인분";
@@ -119,8 +119,8 @@ export function createInitialState(): AppState {
     goalG: 110,
     profileConfigured: false,
     eveningReminderEnabled: false,
-    favoriteFoodIds: [...starterFoodIds],
-    quickFoodIds: [...starterFoodIds],
+    favoriteFoodIds: [],
+    quickFoodIds: [...starterQuickFoodIds],
     records: [],
   };
 }
